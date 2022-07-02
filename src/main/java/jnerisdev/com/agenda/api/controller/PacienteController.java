@@ -29,4 +29,26 @@ public class PacienteController {
         return ResponseEntity.status(HttpStatus.OK).body(pacientes);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Paciente> buscarPorId(@PathVariable Long id){
+        Optional<Paciente> pacienteBuscaId = service.buscarPorId(id);
+
+        if(pacienteBuscaId.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(pacienteBuscaId.get());
+    }
+    @PutMapping
+    public ResponseEntity<Paciente> alterar(@RequestBody Paciente paciente){
+        Paciente alterarPaciente = service.salvar(paciente);
+        return ResponseEntity.status(HttpStatus.OK).body(alterarPaciente);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id){
+        service.deletar(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 }
